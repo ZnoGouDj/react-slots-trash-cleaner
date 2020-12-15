@@ -7,9 +7,15 @@ export default class InputPanel extends Component {
         label: ''
     }
 
+    onSubmit = (e) => {
+        e.preventDefault();
+        
+    }
+
     render() {
         return (
-            <form>
+            <form
+                onSubmit={this.onSubmit}>
                 <input />
                 <button
                     className="btn btn-outline-secondary">
