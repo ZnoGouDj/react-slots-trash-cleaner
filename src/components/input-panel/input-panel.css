@@ -1,0 +1,14 @@
+.input-panel-form {
+    margin-top: 10px;
+}
+
+.input-panel-form .input-container {
+    margin-bottom: 10px;
+}
+
+.input-panel-form input {
+    text-align: center;
+    margin-right: 3px;
+    height: 250px;
+    width: 500px;
+}

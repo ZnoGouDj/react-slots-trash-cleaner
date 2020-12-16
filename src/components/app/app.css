@@ -1,0 +1,7 @@
+.slots-trash-cleaner {
+    text-align: center;
+}
+
+.slots-trash-cleaner > div {
+    margin: auto;
+}
