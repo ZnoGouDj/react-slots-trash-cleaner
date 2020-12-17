@@ -12,3 +12,7 @@
     height: 250px;
     width: 500px;
 }
+
+.input-panel-form button {
+    margin-bottom: 10px;
+}

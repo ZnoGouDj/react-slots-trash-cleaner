@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 
 import InputPanel from '../input-panel'
+import LanguageFilter from '../language-filter/language-filter';
 
 import './app.css'
-import LanguageFilter from '../language-filter/language-filter';
 
 export default class App extends Component {
     state = {
-
+        language: 'english'
     }
 
     filterThisTrash = (text) => {
@@ -15,54 +15,37 @@ export default class App extends Component {
         if (text.indexOf('You can play these slots:') > -1) { return; }
         if (text.indexOf('Вы можете играть в следующие слоты:') > -1) { return; }
 
-        let newText = text.slice()
-        let clean = newText
-            .replace(/([A-Z])/g, ' $1')
+        let getSlotsArray = JSON.parse(text);
 
-            //providers
-            .replace(/softswiss/g, '')
-            .replace(/mrslotty/g, '')
-            .replace(/pragmatic/g, '')
-            .replace(/netent/g, '')
-            .replace(/booming/g, '')
-            .replace(/bsg/g, '')
-            .replace(/endorphina/g, '')
-            .replace(/evolution/g, '')
-            .replace(/igtech/g, '')
-            .replace(/isoftbet/g, '')
-            .replace(/platipus/g, '')
-            .replace(/playngo/g, '')
-            .replace(/quickfire/g, '')
-            .replace(/quickspin/g, '')
-            .replace(/relax/g, '')
-            .replace(/yggdrasil/g, '')
-            .replace(/amatic/g, '')
-
-            //mrslotty_trash_removal
-            .replace(/_not_mobile_html_sw/g, '')
-            .replace(/_mobile_html_sw/g, '')
-
-            .replace(/[\[\]":]+/g, '')
-            .replace(/^./, function (str) {
+        let getTheSlotNames = getSlotsArray.map(e => e.split(':').pop().replace(/_not_mobile_html_sw/g, '')
+            .replace(/_mobile_html_sw/g, '').replace(/([A-Z])/g, ' $1').replace(/^./, function (str) {
                 return str.toUpperCase();
             })
+        )
 
-        let uniq = clean.split(', ');
-        let unique = [...new Set(uniq)];
-        let final = unique.join(', ');
+        let removeDuplicates = [...new Set(getTheSlotNames)];
 
-        return 'You can play these slots:' + final + '. Good luck!';
+        return removeDuplicates.join(', ')
+    }
 
+    onLanguageChange = (language) => {
+        this.setState({ language })
     }
 
     render() {
+        const background = this.state.language === 'english' ? 'usa' : 'russia'
+
         return (
-            <div className="slots-trash-cleaner">
+            <div className={`slots-trash-cleaner ${background}`}>
                 <div className="language-filter-panel">
-                    <LanguageFilter />
+                    <LanguageFilter
+                        language={this.state.language}
+                        onLanguageChange={this.onLanguageChange} />
                 </div>
                 <div className="input-panel">
-                    <InputPanel filterThisTrash={this.filterThisTrash} />
+                    <InputPanel
+                        language={this.state.language}
+                        filterThisTrash={this.filterThisTrash} />
                 </div>
             </div>
         )

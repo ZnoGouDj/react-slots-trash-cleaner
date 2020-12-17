@@ -15,13 +15,20 @@ export default class InputPanel extends Component {
 
     onSubmit = (e) => {
         e.preventDefault();
-        let filtered = this.props.filterThisTrash(this.state.label);
         this.setState({
-            label: filtered
+            label: this.props.filterThisTrash(this.state.label)
         })
     }
 
     render() {
+        const { language } = this.props;
+
+        const translate = language === 'english'
+        const placeholder = translate ? "What needs to be cleaned" : "Что нужно очистить"
+        const button = translate ? "Pure Text" : "Очистить"
+        const textWrapStart = !this.state.label ? '' : translate ? 'You can play these slots: ' : 'Вы можете играть в следующие слоты: '
+        const textWrapEnd = !this.state.label ? '' : translate ? '. Good luck!' : '. Удачи!'
+
         return (
             <form
                 className="input-panel-form"
@@ -30,14 +37,14 @@ export default class InputPanel extends Component {
                     <input
                         type="text"
                         onChange={this.onLabelChange}
-                        placeholder="What needs to be cleaned"
-                        value={this.state.label}
+                        placeholder={placeholder}
+                        value={textWrapStart + this.state.label + textWrapEnd}
                     />
                 </div>
                 <button
-                    className="btn btn-outline-secondary">
-                    Pure Text
-                    </button>
+                    className="btn btn-info btn-lg">
+                    {button}
+                </button>
             </form>
         )
     }

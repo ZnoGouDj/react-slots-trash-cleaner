@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import './language-filter';
+import './language-filter.css';
 
 export default class LanguageFilter extends Component {
 
@@ -10,16 +10,16 @@ export default class LanguageFilter extends Component {
     ]
 
     render() {
-        const { filter, onFilterChange } = this.props;
+        const { language, onLanguageChange } = this.props;
 
         const buttons = this.buttons.map(({ name, label }) => {
-            const isActive = filter === name;
+            const isActive = language === name;
             const clazz = isActive ? 'btn-info' : 'btn-outline-secondary';
             return (
                 <button type="button"
                     className={`btn ${clazz}`}
                     key={name}
-                    onClick={() => onFilterChange(name)}>{label}</button>
+                    onClick={() => onLanguageChange(name)}>{label}</button>
             )
         })
 
